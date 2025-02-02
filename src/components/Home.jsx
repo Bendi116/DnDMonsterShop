@@ -1,10 +1,8 @@
-import { Link } from "react-router-dom"
-export const Home = () =>{
-    return (
-        <div>
-            <h1>Home</h1>
-            <Link to="/">Back to App</Link>
-
-        </div>
-    )
-}
+import { Link } from "react-router-dom";
+export const Home = () => {
+  return (
+    <div>
+      <h1>Home</h1>
+    </div>
+  );
+};

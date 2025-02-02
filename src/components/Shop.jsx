@@ -1,12 +1,46 @@
-import { Link } from "react-router-dom"
+import { useEffect,useState } from "react";
+import { MonsterCard } from "./MonsterCard";
 
 
-export const Shop = () =>{
-    return (
-        <div>
-            <h1>Shop</h1>
-            <Link to="/">Back to App</Link>
+export  function Shop ({fullMonsterIndexList})  {
+  const MonsterCardsList = fullMonsterIndexList.map(monster=>{
+    return (<MonsterCard monster={monster} key={monster}/>)
+  })
 
-        </div>
-    )
-}
+
+  /*const [monstersData,setMonstersData] = useState([null])
+
+
+  
+  useEffect(()=>{
+    const fetchMonsters = async () => {
+      try{
+        const fetches = fullMonsterIndexList.map(monster=>
+          fetch(`https://www.dnd5eapi.co/api/monsters/${monster}`,{mode:"cors"})
+          .then(response=>response.json())
+        )
+        const responses = await Promise.all(
+          [...fetches]
+        )
+        setMonstersData([...responses])
+      }
+      catch(err){
+        console.error(err)
+      }
+    }
+
+    fetchMonsters()
+
+
+
+  },[])
+  */
+
+
+  return (
+    <div>
+      <h1>Shop</h1>
+      {MonsterCardsList}
+    </div>
+  );
+};
