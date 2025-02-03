@@ -2,39 +2,32 @@ import { useEffect,useState } from "react";
 import { MonsterCard } from "./MonsterCard";
 
 
+
 export  function Shop ({fullMonsterIndexList})  {
-  const MonsterCardsList = fullMonsterIndexList.map(monster=>{
-    return (<MonsterCard monster={monster} key={monster}/>)
-  })
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const MonsterCardsList = []
+  for(let i = 0; i <Math.max(6 + scrollPosition / 1000,334) ; ++i){
+    MonsterCardsList.push(
+      <MonsterCard monster={fullMonsterIndexList[i]} key={fullMonsterIndexList[i]}/>
+    )
+    
+  }
 
+  console.log(scrollPosition)
 
-  /*const [monstersData,setMonstersData] = useState([null])
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+};
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
-  
-  useEffect(()=>{
-    const fetchMonsters = async () => {
-      try{
-        const fetches = fullMonsterIndexList.map(monster=>
-          fetch(`https://www.dnd5eapi.co/api/monsters/${monster}`,{mode:"cors"})
-          .then(response=>response.json())
-        )
-        const responses = await Promise.all(
-          [...fetches]
-        )
-        setMonstersData([...responses])
-      }
-      catch(err){
-        console.error(err)
-      }
-    }
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
-    fetchMonsters()
-
-
-
-  },[])
-  */
 
 
   return (

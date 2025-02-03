@@ -2,8 +2,6 @@ import { useEffect,useState } from "react"
 
 export function MonsterCard({monster}){
     const [data,setData] = useState(null)
-    if(data)console.log(data["armor_class"])
-    if(data)console.log(data["armor_class"][0].value)
     useEffect(()=>{
         fetch(`https://www.dnd5eapi.co/api/monsters/${monster}`,{mode:"cors"})
           .then(response=>response.json())
@@ -16,8 +14,7 @@ export function MonsterCard({monster}){
         { data !== null ?
         <div className={`monsterCard ${data["index"]}`} >
             
-        Name:{data["name"]}
-        {data["image"] && <img src={"https://www.dnd5eapi.co"+data["image"]} style={{width: data["armor_class"][0].value?`${data["armor_class"][0].value/5}rem`:"0px"}}/>}
+        {data["image"] &&<div>{data["name"]} <img src={"https://www.dnd5eapi.co"+data["image"]} style={{width: data["armor_class"][0].value?`${data["armor_class"][0].value*2.4}rem`:"0px"}}/></div>}
 
 
         </div>
