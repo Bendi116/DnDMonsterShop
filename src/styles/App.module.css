@@ -1,17 +1,35 @@
+.wrapper{
+    text-align: center;
+    overflow: visible;
+}
+
+
+
 .header{
-    color: red;
-    background-color: azure;
+    background-color: #413b78;
     width: 100vw;
+    height: 13vh;
     margin: 0;
     padding: 0;
     position: sticky;
     top: 0;
+    opacity: 0.9;
 }
 
 .headerButton{
     color: rgb(168, 223, 243);
 }
 
-.wrapper{
-   
+
+.chart{
+    
+    width: 30vw;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top:0;
+    background-color: aqua;
+    z-index: 1;
+    
 }
+

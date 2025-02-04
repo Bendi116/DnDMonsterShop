@@ -1,30 +1,41 @@
-import { useEffect,useState } from "react"
+import { useEffect,useState,useMemo } from "react"
+import styles from "./../styles/Shop.module.css"
+
 
 export function MonsterCard({monster}){
     const [data,setData] = useState(null)
-    useEffect(()=>{
+
+
+      useEffect(()=>{
         fetch(`https://www.dnd5eapi.co/api/monsters/${monster}`,{mode:"cors"})
           .then(response=>response.json())
           .then(response=>setData(response))
           .catch(err=>console.log(err))
     },[])
+   
+
+   
 
     return(
         <>
         { data !== null ?
-        <div className={`monsterCard ${data["index"]}`} >
-            
-        {data["image"] &&<div>{data["name"]} <img src={"https://www.dnd5eapi.co"+data["image"]} style={{width: data["armor_class"][0].value?`${data["armor_class"][0].value*2.4}rem`:"0px"}}/></div>}
-
-
-        </div>
-         : "Loading..."}
+        
+        (
+          data["image"] &&
+          <div className={`monsterCard ${data["index"]} ${styles.monsterCard}`}> 
+            <img src={"https://www.dnd5eapi.co"+data["image"]}
+                />
+            <div className={styles.cardLabel}>{data["name"]}</div>
+          </div>
+        )
+        : "Loading..."}
     </>
     )
 }
 
 
-
+/*
+ style={{width: data["armor_class"][0].value?`${data["armor_class"][0].value*2.4}rem`:"0px"}}*/
 /*
         <div className={`monsterCard ${data["index"]}`} style={{width: `${data["armor_class"]/5}rem`}}>
             
