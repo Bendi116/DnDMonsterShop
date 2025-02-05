@@ -1,11 +1,9 @@
-.wrapper{
+.wrapper {
     text-align: center;
     overflow: visible;
 }
 
-
-
-.header{
+.header {
     background-color: #413b78;
     width: 100vw;
     height: 13vh;
@@ -16,20 +14,16 @@
     opacity: 0.9;
 }
 
-.headerButton{
+.headerButton {
     color: rgb(168, 223, 243);
 }
 
-
-.chart{
-    
+.chart {
     width: 30vw;
     height: 100vh;
     position: fixed;
     right: 0;
-    top:0;
+    top: 0;
     background-color: aqua;
     z-index: 1;
-    
 }
-

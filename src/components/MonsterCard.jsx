@@ -1,38 +1,37 @@
-import { useEffect,useState,useMemo } from "react"
-import styles from "./../styles/Shop.module.css"
+import { useEffect, useState, useMemo } from 'react';
+import styles from './../styles/Shop.module.css';
 
+export function MonsterCard({ monster }) {
+    //conatin json data from the API query
+    const [data, setData] = useState(null);
 
-export function MonsterCard({monster}){
-    const [data,setData] = useState(null)
+    //Get the json response
+    useEffect(() => {
+        fetch(`https://www.dnd5eapi.co/api/monsters/${monster}`, {
+            mode: 'cors'
+        })
+            .then((response) => response.json())
+            .then((response) => setData(response))
+            .catch((err) => console.log(err));
+    }, []);
 
-
-      useEffect(()=>{
-        fetch(`https://www.dnd5eapi.co/api/monsters/${monster}`,{mode:"cors"})
-          .then(response=>response.json())
-          .then(response=>setData(response))
-          .catch(err=>console.log(err))
-    },[])
-   
-
-   
-
-    return(
+    return (
         <>
-        { data !== null ?
-        
-        (
-          data["image"] &&
-          <div className={`monsterCard ${data["index"]} ${styles.monsterCard}`}> 
-            <img src={"https://www.dnd5eapi.co"+data["image"]}
-                />
-            <div className={styles.cardLabel}>{data["name"]}</div>
-          </div>
-        )
-        : "Loading..."}
-    </>
-    )
+            {data !== null
+                ? data['image'] && (
+                      <div
+                          className={`monsterCard ${data['index']} ${styles.monsterCard}`}
+                      >
+                          <img
+                              src={'https://www.dnd5eapi.co' + data['image']}
+                          />
+                          <div className={styles.cardLabel}>{data['name']}</div>
+                      </div>
+                  )
+                : 'Loading...'}
+        </>
+    );
 }
-
 
 /*
  style={{width: data["armor_class"][0].value?`${data["armor_class"][0].value*2.4}rem`:"0px"}}*/
