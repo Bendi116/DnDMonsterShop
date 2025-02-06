@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { MonsterCard } from './MonsterCard';
 import styles from './../styles/Shop.module.css';
 
-export function Shop({ fullMonsterIndexList }) {
+export function Shop({ fullMonsterIndexList,addToChart}) {
     //state that used for store the before scrollY value
     const [scrollPosition, setScrollPosition] = useState(0);
     const [monsterCards,setMonsterCards] = useState([])
@@ -21,6 +21,7 @@ export function Shop({ fullMonsterIndexList }) {
         for (let i = monsterCards.length; i < calcRelativeSizeFromScrollY(); ++i) {
             tmp.push(
                 <MonsterCard
+                addToChart={addToChart}
                     monster={fullMonsterIndexList[i]}
                     key={fullMonsterIndexList[i]}
                 />

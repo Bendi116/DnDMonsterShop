@@ -1,9 +1,11 @@
 import { useEffect, useState, useMemo } from 'react';
 import styles from './../styles/Shop.module.css';
 
-export function MonsterCard({ monster }) {
+export function MonsterCard({ monster,addToChart }) {
     //conatin json data from the API query
     const [data, setData] = useState(null);
+    let price = 0
+    if (data) price = calcMonsterPrice()
 
     //Get the json response
     useEffect(() => {
@@ -15,6 +17,23 @@ export function MonsterCard({ monster }) {
             .catch((err) => console.log(err));
     }, []);
 
+    //send to the cart the added monster
+    function handleAddToChart(){
+      const sendData = {
+        name:data["name"],
+        url:'https://www.dnd5eapi.co' + data['image'],
+        count: 1,
+        price:price
+      }
+      addToChart(sendData)
+    }
+
+    //calc monster price
+    function calcMonsterPrice (){
+      return data["armor_class"][0]["value"] * data["hit_points"] * data["challenge_rating"]
+
+    }
+
     return (
         <>
             {data !== null
@@ -25,7 +44,16 @@ export function MonsterCard({ monster }) {
                           <img
                               src={'https://www.dnd5eapi.co' + data['image']}
                           />
-                          <div className={styles.cardLabel}>{data['name']}</div>
+                          <div className={styles.cardLabel}>
+                            <button onClick={()=>handleAddToChart()} className={styles.addToChartButton}>Add to chart</button>
+                            {data['name']}
+                            
+                            
+                          </div>
+                          <div className={styles.price}>
+                              {price}$
+                            </div>
+                            
                       </div>
                   )
                 : 'Loading...'}
