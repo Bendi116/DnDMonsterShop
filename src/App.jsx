@@ -4,14 +4,14 @@ import { Home } from './components/Home.jsx';
 import { Shop } from './components/Shop.jsx';
 import styles from './styles/App.module.css';
 
-function App() {
+export function App() {
     //var that store the possible API indexes for later queries
     const [fullMonsterIndexList, setFullMonsterIndexList] = useState(['']);
     const [showChart, setShowChart] = useState(false);
     //chart current elements 
     const [chartEl,setChartEL] = useState([])
     const { name } = useParams();
-    console.log("rendered elements:",chartEl)
+    const chartAnimationStyle = showChart ? styles.chartAppear : styles.chartDisappear
 
     //debug DELETE!!
     useEffect(()=>{
@@ -59,6 +59,27 @@ function App() {
 
     }
 
+    function purchaseMonsters(){
+        //calc fullPrice
+        const fullPrice = chartEl.reduce((acc,cur)=> acc+(cur.price*cur.count),0)
+        console.log(fullPrice)
+        //delete all items
+        setChartEL([])
+        //alert to the user that new purchase is succesful
+        console.log("Your pursache is orderd! The full price is ", fullPrice)
+        alert("Your pursache is orderd! The full price is " + fullPrice + "$")
+    }
+
+
+    function increaseMonsterCount(el){
+        setChartEL(chartEl=>chartEl.map(
+            _el=>
+            _el.name==el.name
+                ? {...el,count:el.count+1}
+                : _el
+            ))
+    }
+
     return (
         <div className={styles.wrapper}>
             <header className={styles.header}>
@@ -71,6 +92,7 @@ function App() {
                 <Link
                     className={styles.headerButton}
                     onClick={() => setShowChart(!showChart)}
+
                 >
                     Chart
                 </Link>
@@ -86,32 +108,33 @@ function App() {
                 )}
             </main>
 
-           <Chart  showChart={showChart} chartEl={chartEl} removeFromChar={removeFromChar}/>
+           <Chart  showChart={showChart} chartEl={chartEl} removeFromChar={removeFromChar} purchaseMonsters={purchaseMonsters} increaseMonsterCount={increaseMonsterCount} chartAnimationStyle={chartAnimationStyle}/>
         </div>
     );
 }
 
-export default App;
 
 
 
-function Chart({showChart ,chartEl,removeFromChar}){
+export function Chart({showChart ,chartEl,removeFromChar,purchaseMonsters,increaseMonsterCount,chartAnimationStyle}){
     const chartList =  chartEl.map(
-                        (el)=> <ChartEl data={el} key={el.name} removeFromChar={removeFromChar}/>
+                        (el)=> <ChartEl data={el} key={el.name} removeFromChar={removeFromChar} increaseMonsterCount={increaseMonsterCount}/>
     )   
 
     return (
         <div
-        className={styles.chart}
-        style={{ visibility: showChart ? 'visible' : 'hidden' }}
+        className={styles.chart+" "+chartAnimationStyle}
+        style={{ visibility: showChart ? 'visible' : 'hidden' ,
+        }}
     >
     {chartList}
+    <button onClick={()=>{purchaseMonsters()}}>Purchase Monsters</button>
     </div>
     )
 }
 
 
-function ChartEl({data,removeFromChar}){
+function ChartEl({data,removeFromChar,increaseMonsterCount}){
     return(
         <div key={data.name} className={styles.chartEl}>
             <div className={styles.chartElContainer}>
@@ -122,6 +145,7 @@ function ChartEl({data,removeFromChar}){
                    </h3>
                 </div>
                 <button className={styles.chartElRemove} onClick={()=>removeFromChar(data)}>Remove</button>
+                <button onClick={()=>increaseMonsterCount(data)}>Increase count</button>
             </div>
         </div>
     )

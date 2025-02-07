@@ -28,8 +28,22 @@
     background-color: rgb(161, 205, 205);
     opacity: 0.9;
     overflow-y: scroll;
-
+    transition: all 1s ease;
+    transform: translateX(200%);
 }
+
+.chartAppear{
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.chartDisappear{
+    opacity: 0;
+    transform: translateX(200%);
+}
+
+
+
 
 .chartEl{
     display: flex;
